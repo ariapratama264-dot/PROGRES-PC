@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>🖥️PROGRES PC🖥️</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: white;
+      font-size: 28px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 800px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #3498db;
+      color: white;
+      font-weight: bold;
+    }
+    tr:hover {
+      background: #f1f1f1;
+      transition: 0.3s;
+    }
+    .done {
+      background: #c8e6c9 !important;
+      transition: 0.3s;
+    }
+
+    input[type=checkbox] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #2ecc71;
+    }
+
+    .footer {
+      margin-top: 20px;
+      color: white;
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+
+  <h2>progres pc 🖥️ Rp5.000 per Hari</h2>
+
+  <div class="card">
+    <table>
+      <tr>
+        <th>Hari ke-</th>
+        <th>Nominal</th>
+        <th>Total Terkumpul</th>
+        <th>Sudah Nabung?</th>
+      </tr>
+      
+      <script>
+        let total = 0;
+        let savedChecks = JSON.parse(localStorage.getItem("nabung")) || {};
+
+        for (let i = 1; i <= 280; i++) { // ubah jadi 365 kalau setahun penuh
+          total += 5000;
+          let checked = savedChecks[i] ? "checked" : "";
+          let rowClass = savedChecks[i] ? "done" : "";
+          
+          document.write(`
+            <tr class="${rowClass}">
+              <td><b>${i}</b></td>
+              <td>Rp 5.000</td>
+              <td>Rp ${total.toLocaleString("id-ID")}</td>
+              <td><input type="checkbox" data-hari="${i}" ${checked}></td>
+            </tr>
+          `);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+          document.querySelectorAll("input[type=checkbox]").forEach(checkbox => {
+            checkbox.addEventListener("change", function() {
+              let hari = this.getAttribute("data-hari");
+              savedChecks[hari] = this.checked;
+              localStorage.setItem("nabung", JSON.stringify(savedChecks));
+
+              let row = this.parentElement.parentElement;
+              if (this.checked) {
+                row.classList.add("done");
+              } else {
+                row.classList.remove("done");
+              }
+            });
+          });
+        });
+      </script>
+    </table>
+  </div>
+
+  <div class="footer">
+    🌟 Semangat! Dalam 280 hari kamu bisa kumpulin Rp 
+    <script>document.write((280*5000).toLocaleString("id-ID"));</script>
+  </div>
+
+</body>
+</html>
